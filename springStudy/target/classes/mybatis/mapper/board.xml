@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.future.my.board.dao.IBoardDAO">
+	
+	<select id="getBoardList" resultType="BoardVO">
+		
+		SELECT a.board_no
+		     , a.board_title
+		     , b.mem_id
+		     , b.mem_nm
+		     , TO_CHAR(a.update_dt,'YYYY/MM/DD HH24:MI:SS') as update_dt
+		FROM boards a
+		    ,members b
+		WHERE a.mem_id = b.mem_id
+		AND   a.use_yn = 'Y'
+		ORDER BY a.update_dt DESC
+		
+	</select>
+	
+	<select id="getBoard" resultType="BoardVO" parameterType="int">
+		SELECT a.board_no
+		     , a.board_title
+		     , a.board_content
+		     , b.mem_id
+		     , b.mem_nm
+		     , TO_CHAR(a.update_dt,'YYYY/MM/DD HH24:MI:SS') as update_dt
+		     , TO_CHAR(a.create_dt,'YYYY/MM/DD HH24:MI:SS') as create_dt
+		FROM boards a
+		    ,members b
+		WHERE a.mem_id = b.mem_id
+		AND   a.use_yn = 'Y'
+		AND   a.board_no = #{boardNo}
+	</select>
+	
+	<insert id="writeBoard" parameterType="BoardVO" >
+	
+		INSERT INTO boards(board_title, board_content, mem_id)
+		VALUES(#{boardTitle},#{boardContent}, #{memId})
+	
+	</insert>
+	
+	<update id="updateBoard" parameterType="BoardVO">
+		
+		UPDATE boards 
+		SET board_title = #{boardTitle}
+		  , board_content = #{boardContent}
+		  , update_dt = SYSDATE
+		WHERE board_no = #{boardNo}
+		AND   mem_id = #{memId}
+	
+	</update>
+	
+	<select id="getReplyList" parameterType="int" resultType="ReplyVO">	
+	
+		SELECT a.reply_no
+		      ,a.board_no
+		      ,b.mem_id
+		      ,b.mem_nm
+		      ,a.reply_content
+		      ,TO_CHAR(a.reply_date, 'MM/DD HH24:MI') as reply_date
+		FROM replys a, members b
+		WHERE a.mem_id = b.mem_id 
+		AND   a.use_yn = 'Y'
+		AND   a.board_no = #{boardNo}
+		
+	</select>
+	<select id="getReply" parameterType="String" resultType="ReplyVO">
+		SELECT a.reply_no
+		      ,a.board_no
+		      ,b.mem_id
+		      ,b.mem_nm
+		      ,a.reply_content
+		      ,TO_CHAR(a.reply_date, 'MM/DD HH24:MI') as reply_date
+		FROM replys a, members b
+		WHERE a.mem_id = b.mem_id 
+		AND   a.use_yn = 'Y'
+		AND   a.reply_no = #{replyNo}
+	</select>
+	<insert id="writeReply" parameterType="ReplyVO">
+	
+		INSERT INTO replys(board_no, reply_no, mem_id, reply_content)
+		VALUES(#{boardNo}, #{replyNo}, #{memId}, #{replyContent})
+		
+	</insert>
+	<update id="delReply" parameterType="String">
+		
+		UPDATE replys
+		SET use_yn ='N'
+		WHERE reply_no = #{replyNo}
+		
+	</update>	
+	
+	
+	
+</mapper>

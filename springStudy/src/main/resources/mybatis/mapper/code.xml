@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.future.my.common.dao.ICodeDAO">
+<!--  mapper 의 위치는 dao의 패키지 경로 + dao 의 이름 -->
+	
+	<!-- id 는  -->
+	<select id="getCodeList" parameterType="String" resultType="CodeVO">
+	
+	<!--  sql 문 구간  -->
+			SELECT comm_cd
+			      ,comm_nm
+			      ,comm_parent
+			FROM comm_code
+			<!-- is null 과 맞나 틀리나를 구분할수 있게 -->
+			<!-- if 문은 있으나 else if 가 없기에 when . otherwise 를 아용 -->
+			
+			<choose>
+				<when test ="commParent==null">
+				WHERE comm_parent IS NULL
+				</when>
+				
+				<otherwise>
+				WHERE comm_parent = #{commParent}
+				</otherwise>
+			</choose>
+	<!--  sql 문 구간  -->
+	</select>
+	
+	
+	<insert id="addCode" parameterType="CodeVO">
+		INSERT INTO comm_code (comm_cd, comm_nm, comm_parent, comm_ord)
+		VALUES(#{commCd},#{commNm},#{commParent},#{commOrd})
+	</insert>
+	
+	<delete id="deleteCode" parameterType="String">
+		DELETE comm_code WHERE comm_cd = #{commCd}
+	</delete>	
+	
+</mapper>

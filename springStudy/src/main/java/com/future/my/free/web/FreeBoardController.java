@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.future.my.common.service.CodeService;
 import com.future.my.common.vo.CodeVO;
+import com.future.my.free.service.FreeBoardService;
 import com.future.my.free.vo.FreeBoardSearchVO;
+import com.future.my.free.vo.FreeBoardVO;
 
 @Controller
 @RequestMapping("/free")
@@ -23,6 +25,8 @@ public class FreeBoardController {
    public ArrayList<CodeVO> getCodeList(){
        return codeService.getCodeList("BC00");  // 게시판 관련
    }
+   @Autowired
+   FreeBoardService freeService;
    
     //자유게시판
     @RequestMapping("/freeList")
@@ -31,8 +35,15 @@ public class FreeBoardController {
       , @ModelAttribute("searchVO") FreeBoardSearchVO searchVO) {
        
       System.out.println(searchVO);
-       
-       return "free/freeList";
+      ArrayList<FreeBoardVO> freeList = freeService.getBoardList(searchVO);
+      model.addAttribute("freeList",freeList);
+      return "free/freeList";
     }
 
+    // 쟈유 게시판 상세
+    @RequestMapping("/freeView")
+    public String freeView(Model model, int boNo) {
+    	System.out.println(boNo);
+    	return "free/freeView";
+    }
 }

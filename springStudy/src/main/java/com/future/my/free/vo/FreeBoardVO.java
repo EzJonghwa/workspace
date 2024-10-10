@@ -6,6 +6,8 @@ public class FreeBoardVO {
  private String boTitle;
 
  private String boCategory;
+ 
+ private String boCategoryNm;
 
  private String boWriter;
 
@@ -45,6 +47,14 @@ public String getBoCategory() {
 
 public void setBoCategory(String boCategory) {
 	this.boCategory = boCategory;
+}
+
+public String getBoCategoryNm() {
+	return boCategoryNm;
+}
+
+public void setBoCategoryNm(String boCategoryNm) {
+	this.boCategoryNm = boCategoryNm;
 }
 
 public String getBoWriter() {
@@ -113,12 +123,12 @@ public void setBoDelYn(String boDelYn) {
 
 @Override
 public String toString() {
-	return "FreeBoardVO [boNo=" + boNo + ", boTitle=" + boTitle + ", boCategory=" + boCategory + ", boWriter="
-			+ boWriter + ", boPass=" + boPass + ", boContent=" + boContent + ", boIp=" + boIp + ", boHit=" + boHit
-			+ ", boRegDate=" + boRegDate + ", boModDate=" + boModDate + ", boDelYn=" + boDelYn + "]";
+	return "FreeBoardVO [boNo=" + boNo + ", boTitle=" + boTitle + ", boCategory=" + boCategory + ", boCategoryNm="
+			+ boCategoryNm + ", boWriter=" + boWriter + ", boPass=" + boPass + ", boContent=" + boContent + ", boIp="
+			+ boIp + ", boHit=" + boHit + ", boRegDate=" + boRegDate + ", boModDate=" + boModDate + ", boDelYn="
+			+ boDelYn + "]";
 }
 
- 
 
 
 }

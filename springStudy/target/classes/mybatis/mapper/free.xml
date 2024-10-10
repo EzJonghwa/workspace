@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.future.my.free.dao.IFreeBoardDAO">
+	
+	<select id="getTotalRowCount" resultType="int" parameterType="FreeBoardSearchVO">
+	
+		SELECT count(*)
+		FROM free_board
+		WHERE 1=1
+		<include refid="freeBoardSearch"></include>
+	</select>
+	
+	<select id="getBoardList" parameterType="FreeBoardSearchVO" resultType="FreeBoardVO">
+				SELECT *
+				FROM(
+				    SELECT rownum as rnum, a.*
+					    FROM (
+						    SELECT a.bo_no
+						            ,a.bo_title
+						            ,a.bo_category
+						            ,b. comm_nm as bo_category_nm
+						            ,a.BO_WRITER
+						            ,a. bo_pass
+						            ,a.bo_content
+						            ,a.bo_ip
+						            ,a.bo_hit
+						            ,a.bo_del_yn
+						            ,TO_CHAR(a.bo_reg_date, 'YYYY-MM-DD') as bo_reg_date
+						            ,TO_CHAR(a.bo_mod_date, 'YYYY-MM-DD') as bo_mod_date
+						            FROM free_board a , comm_code b
+						            WHERE a.bo_category = b.comm_cd
+						            <include refid="freeBoardSearch"></include>
+						            -- 검색조건
+						            ORDER BY bo_no DESC
+							) a
+					    ) b
+			WHERE rnum BETWEEN #{firstRow} AND #{lastRow}
+	
+	</select>
+	<sql id="freeBoardSearch">
+		 <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchWord)">
+			<choose>
+			<when test='searchType=="T"'>
+			AND bo_title LIKE '%' || #{searchWord} ||'%'</when>
+			
+			<when test='searchType=="W"'>
+			AND bo_writer LIKE '%' || #{searchWord} ||'%'</when>
+			
+			<when test='searchType=="C"'>
+			AND bo_content LIKE '%' || #{searchWord} ||'%'</when>
+			</choose>
+	</if>
+	
+	<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchCategory)">
+			AND bo_categoty = #{searchCategory}
+	</if>
+	</sql>
+	
+</mapper>

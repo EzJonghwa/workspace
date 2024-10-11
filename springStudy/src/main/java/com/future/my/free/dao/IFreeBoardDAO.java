@@ -15,4 +15,12 @@ public interface IFreeBoardDAO {
 	
 	// 자유 게시판 조회  (리턴시 FreeboardVO)
 	public ArrayList<FreeBoardVO> getBoardList(FreeBoardSearchVO searchVO);
+	
+	// 게시글 조회
+	public FreeBoardVO getBoard(int boNo);
+	
+	public int insertFreeBoard(FreeBoardVO vo);
+	
+	public FreeBoardVO updateFreeBoard(int boNo);
+	
 }

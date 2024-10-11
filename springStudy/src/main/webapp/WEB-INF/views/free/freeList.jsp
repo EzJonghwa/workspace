@@ -87,17 +87,17 @@
                <tr>
                   <td>${free.boNo }</td>
                   <td>${free.boCategoryNm }</td>
-                  <td>${free.boTitle }</td>
+                  <td><a href="freeView?boNo=${free.boNo}" >${free.boTitle }</a></td>
                   <td>${free.boWriter }</td>
-                  <td>${free.boModDate }</td>
+                  <td>${free.boModDate eq null ? free.boRegDate : free.boModDate }</td>
                   <td>${free.boHit }</td>
                </tr>
                </c:forEach>
             </tbody>
          </table>
          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="freeForm" class="btn btn-primary">글쓰기</a>
-         </div>
+				<a href="freeForm" class="btn btn-primary">글쓰기</a>
+			</div>
          <!-- START : 페이지네이션  -->
          <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">

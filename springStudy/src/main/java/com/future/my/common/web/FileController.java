@@ -2,9 +2,14 @@ package com.future.my.common.web;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +21,9 @@ public class FileController {
 
 	@Value("#{util['file.upload.path']}")
 	private String CURR_IMAGE_PATH;
+	
+	@Value("#{util['file.download.path']}")
+	private String WEB_PATH;
 	
 	@RequestMapping("/download")
 	public void download(String imageFileName, HttpServletResponse response) throws IOException {
@@ -46,7 +54,51 @@ public class FileController {
 		}finally {
 			out.close();
 		}
-		
-		
 	}
+	@RequestMapping("/multiImgUpload")
+	   public void multiImgUpload(HttpServletRequest req, HttpServletResponse res) {
+	      // 저장 후 이미지 저장 정보 전달
+	     try {
+	      String sFileInfo ="";
+	      String fileName = req.getHeader("file-name");
+	      String prifix= fileName.substring(fileName.lastIndexOf(".") +1);
+	      prifix = prifix.toLowerCase();
+	      String path = CURR_IMAGE_PATH;
+	      File file = new File(path);
+	      if(!file.exists()) {
+	         file.mkdir();
+	      }
+	      //서버에 저장될 파일 이름
+	      String realName = UUID.randomUUID().toString()+ "." +prifix;
+	      InputStream is =req.getInputStream();
+	      OutputStream os = new FileOutputStream(new File(path + "\\" + realName));
+	      int read = 0;
+	      byte b [] =new byte[1204];
+	      while((read = is.read(b))!= -1) {
+	         os.write(b,0,read);
+	      }
+	      if(is !=null) {
+	         is.close();
+	         
+	      }
+	      os.flush();
+	      os.close();
+	      // 전달 정보
+	      sFileInfo +="&bNewLine=true";
+	      sFileInfo +="&sFileName=" +fileName;
+	      sFileInfo +="&sFileURL="+ WEB_PATH + realName;
+	      PrintWriter print = res.getWriter();
+	      System.out.println(sFileInfo);
+	      print.print(sFileInfo);
+	      print.flush();
+	      print.close();
+	   }catch(IOException e) {
+	      e.printStackTrace();
+	   }
+
+	}
+	
+	
+	
+	
 }

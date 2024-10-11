@@ -55,5 +55,45 @@
 			AND bo_categoty = #{searchCategory}
 	</if>
 	</sql>
+	<!--  개시글 조회 -->
+
+	<select id="getBoard" resultType="FreeBoardVO" parameterType="int">
+	<!--  게시글 프리뷰 쿼리 -->
+				SELECT a.bo_no
+			        ,a.bo_title
+			        ,a.bo_category
+			        ,b.comm_nm as bo_category_nm
+			        ,a.bo_writer
+			        ,a.bo_content
+			        ,a.bo_hit
+				FROM free_board a, comm_code b
+				WHERE  a.bo_category = b.comm_cd
+				AND bo_no = #{boNo}
+				AND a.bo_del_yn = 'N'
+</select>	
+<insert id="insertFreeBoard" parameterType="FreeBoardVO">
+			INSERT INTO free_board(bo_no
+								, bo_title
+								, bo_category
+								, bo_writer
+								, bo_pass
+								, bo_content
+								, bo_mod_date)
+			VALUES(seq_freeboard.nextval,#{boTitle}
+									   ,#{boCategory}
+									   ,#{boWriter}
+									   ,#{boPass}
+									   ,#{boContent}
+									   ,SYSDATE)
+
+</insert>
+
+<update id="updateFreeBoard" parameterType="FreeBoardVO">
+			UPDATE free_board
+			SET bo_hit = bo_hit+1
+			WHERE bo_no = #{boNo}
+</update>
+
+
 	
 </mapper>

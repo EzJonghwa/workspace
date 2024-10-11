@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.future.my.common.service.CodeService;
@@ -42,8 +43,21 @@ public class FreeBoardController {
 
     // 쟈유 게시판 상세
     @RequestMapping("/freeView")
-    public String freeView(Model model, int boNo) {
+    public String freeView(Model model, int boNo) throws Exception {
     	System.out.println(boNo);
+    	FreeBoardVO free = freeService.getBoard(boNo);
+    	model.addAttribute("free",free);
     	return "free/freeView";
+    }
+    @RequestMapping("/freeForm")
+    public String freeForm() {
+    	return "free/freeForm";
+    }
+    
+    @PostMapping("/freeBoardWriteDo")
+    public String freeBoardWriteDo(FreeBoardVO vo) throws Exception {
+    	freeService.insertFreeBoard(vo);
+    	return "redirect:/free/freeList";
+    	
     }
 }

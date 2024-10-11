@@ -36,5 +36,27 @@ public class FreeBoardService {
 
 	}
 	
+	public FreeBoardVO getBoard(int boNo) throws Exception {
+		FreeBoardVO board = dao.getBoard(boNo);
+		if(board ==null) {
+			throw new Exception();
+		}
+		return board;
+	}
+	
+	public void insertFreeBoard(FreeBoardVO vo) throws Exception {
+		int result = dao.insertFreeBoard(vo);
+		if(result ==0) {
+			throw new Exception();
+		}
+	}
+	public FreeBoardVO updateFreeBoard(int boNo) throws Exception {
+		FreeBoardVO board = dao.updateFreeBoard(boNo);
+		if(board ==null) {
+			throw new Exception();
+		}
+		return board;
+		
+	}
 	
 }

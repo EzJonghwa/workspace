@@ -16,19 +16,19 @@
                 <table class="table table-striped table-bordered">
                     <tr>
                         <th>제목</th>
-                        <td><input class="form-control input-sm" type="text" name="boTitle" value="" ></td>
+                        <td><input class="form-control input-sm" type="text" name="boTitle" value="${free.boTitle}" ></td>
                     </tr>
                     <tr>
                         <th>작성자</th>
-                        <td><input class="form-control input-sm" type="text" name="boWriter" value="" ></td>
+                        <td><input class="form-control input-sm" type="text" name="boWriter" value="${free.boWriter}" ></td>
                     </tr>
                     <tr>
                     	<th>분류</th>
-                    	<td><input class="form-control input-sm" type="text" name="boCategoryNm" value="" ></td>
+                    	<td><input class="form-control input-sm" type="text" name="boCategoryNm" value="${free.boCategory}" ></td>
                     </tr>
                     <tr>
                         <th>내용</th>
-                        <td> </td>
+                        <td>${free.boContent}</td>
                     </tr>
                 </table>
 		</div>

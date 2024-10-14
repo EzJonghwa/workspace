@@ -18,6 +18,7 @@
 		<typeAlias type="com.future.my.common.vo.CodeVO" alias="CodeVO" />
 		<typeAlias type="com.future.my.free.vo.FreeBoardSearchVO" alias="FreeBoardSearchVO" />
 		<typeAlias type="com.future.my.free.vo.FreeBoardVO" alias="FreeBoardVO" />
+		<typeAlias type="com.future.my.chat.vo.RoomVO" alias="RoomVO" />
 	</typeAliases>
 	
 </configuration>

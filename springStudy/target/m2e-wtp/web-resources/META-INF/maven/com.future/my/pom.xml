@@ -195,7 +195,19 @@
 		<artifactId>commons-lang3</artifactId>
 		<version>3.11</version>
 		</dependency>
-		
+		<!-- 채팅 -->
+		<!-- socket -->
+		<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-websocket</artifactId>
+		<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- messaging -->
+		<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-messaging</artifactId>
+		<version>${org.springframework-version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

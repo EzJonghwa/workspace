@@ -1,13 +1,14 @@
 package com.future.my.chat.vo;
 
 public class RoomVO {
-
-	private int roomNo;
-	private String roomName;
-	private String memId;
-	private String memNm;
-	private String regDate;
-	private String delYn;
+	
+	private int roomNo;        /*방 번호*/
+	private String roomName;   /*방 이름*/ 
+	private String memId;      /*방장 아이디*/
+	private String memNm;      /*방장 이름*/
+	private String regDate;    /*방 생성일*/
+	private String delYn;      /*방 삭제 여부*/
+	 
 	public int getRoomNo() {
 		return roomNo;
 	}
@@ -49,6 +50,6 @@ public class RoomVO {
 		return "RoomVO [roomNo=" + roomNo + ", roomName=" + roomName + ", memId=" + memId + ", memNm=" + memNm
 				+ ", regDate=" + regDate + ", delYn=" + delYn + "]";
 	}
-	
-	
+
+	 
 }

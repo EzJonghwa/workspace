@@ -31,43 +31,30 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// 처음 접속시
 		registry.addEndpoint("/endpoint").withSockJS();
-		
 	}
 
-	
 	@Override
 	public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void configureClientOutboundChannel(ChannelRegistration registration) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -75,21 +62,21 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		// subscribe 시작하는 메세지 라우팅
 		registry.enableSimpleBroker("/subscribe");
-		// /app/hello/+ roomNo 형태로 요청이 오면 -> /hello/{roomNo}으로 전달
+		// /app/hello/ + roomNo 형태로 요청이 오면 -> /hello/{roomNo}으로 전달
 		registry.setApplicationDestinationPrefixes("/app");
-		
-	}
-	@EventListener
-	public void handleWebSocketConnectListener(SessionConnectEvent event) {
-		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-		String userId = sha.getFirstNativeHeader("userId");
-		String roomNo = sha.getFirstNativeHeader("roomNo");
-		
-		Map<String, Object>message = new HashMap<>();
-		message.put("type", "notification");
-		message.put("message",userId +"님이 입장하셨습니다.");
-		messagingTemplate.convertAndSend("subscribe/chat/"+roomNo, message);
 	}
 	
+	@EventListener
+	public void handleWebSocketConnectListener(SessionConnectEvent event) {
+		 StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+		 String userId = sha.getFirstNativeHeader("userId");
+		 String roomNo = sha.getFirstNativeHeader("roomNo");
+		 System.out.println(userId + "/" + roomNo);
+		 Map<String, Object> message = new HashMap<>();
+		 message.put("type", "notification");
+		 message.put("message", userId + "님이 입장하셨습니다.");
+		 
+		 messagingTemplate.convertAndSend("/subscribe/chat/" + roomNo, message);
+	}
 
 }

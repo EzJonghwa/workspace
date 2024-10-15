@@ -1,53 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.future.my.chat.dao.IChatDAO">
-   
-   <select id="getRoomList" resultType="RoomVO">
-         SELECT a.room_no
-             ,a.room_name
-             ,a.mem_id
-             ,b.mem_nm
-             ,a.reg_date
-         FROM rooms a , members b
-         WHERE a.mem_id = b.mem_id
-         AND a.del_yn ='N'
-   
-   </select>
-   
-   <insert id="createRoom" parameterType="RoomVO">
 
-      <selectKey keyProperty="roomNo" resultType="int" order="BEFORE">
-         SELECT room_seq.NEXTVAL FROM DUAL
-      </selectKey>
-   
-      INSERT INTO rooms(room_no, room_name, mem_id)
-      VALUES(#{roomNo}, #{roomName}, #{memId})
-   
-   </insert>
-   
-   <select id="getChatList" parameterType="int" resultType="chatVO">
-       SELECT a.chat_no
-           , a.mem_id
-           , b.mem_nm
-           , a.chat_msg
-           , TO_CHAR(a.send_date, 'RR/MM/DD HH24:MI') as send_date
-           , NVL(b. profile_img, 'asset/img/non.png') as 
-      FROM chatlog a, members b
-      WHERE a.mem_id = b.mem_id
-      AND a.room_no = #{roomNo}
-      ORDER BY 1
-   </select>
-   
-   <insert id="insertChat">
-   
-      <selectKey keyProperty="chatNo" resultType="int" order="BEFORE">
-         SELECT chat_seq.NEXTVAL FROM DUAL
-      </selectKey>
-      
-      INSERT INTO chatlog(chat_no, mem_id, room_no, chat_msg, send_date)
-      VALUES(#{chatNo}, #{memId}, #{roomNo}, #{chatMsg}, TO_DATE(#{sendDate},'yyyy/MM/dd HH24:mi'))
-      
-   </insert>   
-   
-   
+	<select id="getRoomList" resultType="RoomVO">
+		SELECT a.room_no
+		,a.room_name
+		,a.mem_id
+		,b.mem_nm
+		,a.reg_date
+		FROM rooms a , members b
+		WHERE a.mem_id = b.mem_id
+		AND a.del_yn ='N'
+
+	</select>
+
+	<insert id="createRoom" parameterType="RoomVO">
+
+		<selectKey keyProperty="roomNo" resultType="int"
+			order="BEFORE">
+			SELECT room_seq.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO rooms(room_no, room_name, mem_id)
+		VALUES(#{roomNo}, #{roomName}, #{memId})
+
+	</insert>
+
+	<select id="getChatList" parameterType="int" resultType="chatVO">
+		SELECT a.chat_no
+		, a.mem_id
+		, b.mem_nm
+		, a.chat_msg
+		, TO_CHAR(a.send_date, 'RR/MM/DD HH24:MI') as send_date
+		, NVL(b. profile_img, 'asset/img/non.png') as
+		FROM chatlog a, members b
+		WHERE a.mem_id = b.mem_id
+		AND a.room_no = #{roomNo}
+		ORDER BY 1
+	</select>
+
+	<insert id="insertChat">
+
+		<selectKey keyProperty="chatNo" resultType="int"
+			order="BEFORE">
+			SELECT chat_seq.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO chatlog(chat_no, mem_id, room_no, chat_msg, send_date)
+		VALUES(#{chatNo}, #{memId}, #{roomNo}, #{chatMsg},
+		TO_DATE(#{sendDate},'yyyy/MM/dd HH24:mi'))
+
+	</insert>
+
+
 </mapper>
